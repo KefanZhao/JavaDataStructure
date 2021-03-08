@@ -6,6 +6,7 @@ import java.util.Objects;
 public class SeqList<T> {
     private Object[] elements;
     private int n;
+    private static final int capacity = 64;
 
     public SeqList(int length) {
         this.elements = new Object[length];
@@ -13,7 +14,7 @@ public class SeqList<T> {
     }
 
     public SeqList() { // 默认容量的空表
-        this(64);
+        this(capacity);
     }
 
     public SeqList(T[] values) {
@@ -53,6 +54,22 @@ public class SeqList<T> {
         }
     }
 
+    public int insert(T data) {
+        if (data == null) {
+            throw new NullPointerException("data === null");
+        }
+        if (this.size() >= this.elements.length) {
+            Object[] newData = new Object[capacity * 2];
+            for (int i = 0; i < elements.length; i++) {
+                newData[i] = elements[i];
+            }
+            elements = newData;
+        }
+        elements[n] = data;
+        n++;
+        return n;
+    }
+
     public int insert(int i, T data) { // n/2
         if (data == null) {
             throw new NullPointerException("data == null");
@@ -66,7 +83,7 @@ public class SeqList<T> {
         for (int j = 0; j < i; j++) { // 复制当前数组的i - 1个元素
             this.elements[j] = source[j];
         }
-        for (int j = this.n - 1; j >= 1; j--) { // 从j开始至表尾的元素向后移动，次序从后向前
+        for (int j = this.n - 1; j >= i; j--) { // 从j开始至表尾的元素向后移动，次序从后向前
             this.elements[j + 1] = source[j];
         }
         this.elements[i] = data;

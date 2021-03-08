@@ -115,4 +115,14 @@ public class SinglyList<T> {
         return p == null && q == null;
     }
 
+    @Override
+    public String toString() {
+        String str = this.getClass().getName() + "(";
+        Node<T> temp = head;
+        while (temp.next == null) {
+            str += temp.next.data + ",";
+            temp = temp.next;
+        }
+        return str + ")";
+    }
 }
